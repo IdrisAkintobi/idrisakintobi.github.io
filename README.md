@@ -30,8 +30,7 @@ Automated via GitHub Actions on push to `main` ([`.github/workflows/deploy.yml`]
 ### Cloudflare
 Deploy the static export directly using Wrangler:
 ```bash
-npm run build
-npx wrangler deploy
+npm run deploy
 ```
 
 ---
