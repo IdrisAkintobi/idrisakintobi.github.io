@@ -24,6 +24,31 @@ body {
     linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }
 
+/* Gradient text with Dark Reader & high-contrast fallback */
+.text-gradient-cyan {
+  color: #67e8f9; /* Solid fallback if background-clip is stripped */
+  background-image: linear-gradient(to right, #67e8f9, #38bdf8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Explicit resilience when Dark Reader extension is active */
+[data-darkreader-mode] .text-gradient-cyan,
+[data-darkreader-scheme] .text-gradient-cyan,
+[data-darkreader-inline-color] .text-gradient-cyan {
+  -webkit-text-fill-color: #67e8f9 !important;
+  color: #67e8f9 !important;
+}
+
+/* Preserve engineering cubic grid when Dark Reader is active */
+[data-darkreader-mode] .bg-grid-pattern,
+[data-darkreader-scheme] .bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px) !important;
+}
+
 .bg-dot-pattern {
   background-size: 24px 24px;
   background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);

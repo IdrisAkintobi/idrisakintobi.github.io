@@ -58,7 +58,7 @@ export function Hero() {
             {/* Main Headline */}
             <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white leading-[1.15]">
               Architecting{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-sky-300">
+              <span className="text-gradient-cyan">
                 distributed systems
               </span>
               , scalable billing engines, and AI agents.
