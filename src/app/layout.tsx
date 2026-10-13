@@ -179,6 +179,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth">
       <head>
+        <meta name="color-scheme" content="dark" />
         <meta name="darkreader-lock" content="" />
         <script
           type="application/ld+json"
