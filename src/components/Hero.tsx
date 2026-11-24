@@ -1,14 +1,22 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import {
-  ArrowUpRight,
-  Mail,
-  Copy,
-  Check,
-} from "lucide-react";
+import { ArrowUpRight, Mail, Copy, Check } from "lucide-react";
 import { WhatsAppIcon } from "@/components/Icons";
+import { siteConfig } from "@/config/site";
 import { LightningCard } from "./LightningCard";
+
+const stackItems = [
+  "Go",
+  "Python",
+  "Node.js",
+  "NestJS",
+  "TypeScript",
+  "PostgreSQL",
+  "Redis",
+  "Kubernetes",
+  "Agentic AI",
+];
 
 export function Hero() {
   const [copied, setCopied] = useState(false);
@@ -22,17 +30,28 @@ export function Hero() {
     };
   }, []);
 
-  const handleCopyEmail = () => {
-    if (typeof navigator !== "undefined" && navigator?.clipboard?.writeText) {
-      navigator.clipboard.writeText("idris@akintobi.ng");
-    } else {
+  const handleCopyEmail = async () => {
+    let didCopy = false;
+    if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText(siteConfig.email);
+        didCopy = true;
+      } catch {
+        didCopy = false;
+      }
+    }
+
+    if (!didCopy) {
       const textArea = document.createElement("textarea");
-      textArea.value = "idris@akintobi.ng";
+      textArea.value = siteConfig.email;
+      textArea.style.position = "fixed";
+      textArea.style.opacity = "0";
       document.body.appendChild(textArea);
       textArea.select();
       document.execCommand("copy");
       document.body.removeChild(textArea);
     }
+
     setCopied(true);
     if (copyTimeoutRef.current) {
       clearTimeout(copyTimeoutRef.current);
@@ -43,7 +62,10 @@ export function Hero() {
   return (
     <section className="relative pt-36 pb-20 md:pt-44 md:pb-28">
       {/* Subtle ambient light backdrop */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-cyan-500/5 blur-[120px] rounded-full pointer-events-none" />
+      <div
+        aria-hidden="true"
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-cyan-500/5 blur-[120px] rounded-full pointer-events-none"
+      />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-12 items-center">
@@ -51,16 +73,14 @@ export function Hero() {
           <div className="lg:col-span-7 space-y-6 text-left">
             {/* Status Indicator */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-xs font-mono text-slate-300">
-              <span className="w-2 h-2 rounded-full bg-emerald-400" />
-              <span>Senior Backend / Full-Stack Engineer</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400" aria-hidden="true" />
+              <span>{siteConfig.role}</span>
             </div>
 
             {/* Main Headline */}
             <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white leading-[1.15]">
               Architecting{" "}
-              <span className="text-gradient-cyan">
-                distributed systems
-              </span>
+              <span className="text-gradient-cyan">distributed systems</span>
               , scalable billing engines, and AI agents.
             </h1>
 
@@ -70,24 +90,14 @@ export function Hero() {
               <span className="text-white font-medium">6+ years of experience</span>{" "}
               building high-throughput services, zero-downtime database
               migrations (<span className="text-cyan-300 font-mono">30M+ docs</span>),
-              and multi-region billing & payment infrastructure driving{" "}
+              and multi-region billing &amp; payment infrastructure driving{" "}
               <span className="text-emerald-300 font-mono">+25% revenue</span>.
             </p>
 
-            {/* Curated Tech Stack (Deno & Fastify removed) */}
+            {/* Curated Tech Stack */}
             <div className="flex flex-wrap items-center gap-2 pt-1 font-mono text-xs text-slate-400">
-              <span className="text-slate-500 mr-1">// Stack:</span>
-              {[
-                "Go",
-                "Python",
-                "Node.js",
-                "NestJS",
-                "TypeScript",
-                "PostgreSQL",
-                "Redis",
-                "Kubernetes",
-                "Agentic AI",
-              ].map((tech) => (
+              <span className="text-slate-500 mr-1">{"// Stack:"}</span>
+              {stackItems.map((tech) => (
                 <span
                   key={tech}
                   className="px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/[0.08] text-slate-300"
@@ -100,41 +110,45 @@ export function Hero() {
             {/* Action CTAs */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-3">
               <a
-                href="https://wa.me/2348080863345?text=Hi%20Idris,%20reaching%20out%20regarding%20an%20engineering%20opportunity"
+                href={siteConfig.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-medium text-sm transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-95 font-mono group"
               >
                 <WhatsAppIcon className="w-4 h-4 text-slate-950 group-hover:scale-110 transition-transform" />
                 <span>Chat on WhatsApp</span>
-                <ArrowUpRight className="w-3.5 h-3.5 text-slate-950/80 ml-0.5" />
+                <ArrowUpRight className="w-3.5 h-3.5 text-slate-950/80 ml-0.5" aria-hidden="true" />
               </a>
 
               <button
+                type="button"
                 onClick={handleCopyEmail}
                 className="w-full sm:w-auto px-5 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-cyan-400/40 text-slate-200 font-medium text-sm transition-all duration-200 flex items-center justify-center gap-2 font-mono cursor-pointer active:scale-95 group shadow-sm"
-                title="Click to copy idris@akintobi.ng"
-                aria-label="Copy email address"
+                title={`Click to copy ${siteConfig.email}`}
+                aria-label={`Copy email address ${siteConfig.email}`}
               >
                 {copied ? (
                   <>
-                    <Check className="w-4 h-4 text-emerald-400 animate-in fade-in" />
-                    <span className="text-emerald-300">Copied idris@akintobi.ng</span>
+                    <Check className="w-4 h-4 text-emerald-400 animate-in fade-in" aria-hidden="true" />
+                    <span className="text-emerald-300">Copied {siteConfig.email}</span>
                   </>
                 ) : (
                   <>
-                    <Mail className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
-                    <span>idris@akintobi.ng</span>
-                    <Copy className="w-3.5 h-3.5 text-slate-400 group-hover:text-cyan-300 transition-colors ml-1" />
+                    <Mail className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" aria-hidden="true" />
+                    <span>{siteConfig.email}</span>
+                    <Copy className="w-3.5 h-3.5 text-slate-400 group-hover:text-cyan-300 transition-colors ml-1" aria-hidden="true" />
                   </>
                 )}
               </button>
+              <span className="sr-only" aria-live="polite">
+                {copied ? `Email address ${siteConfig.email} copied to clipboard` : ""}
+              </span>
             </div>
           </div>
 
           {/* Right Column: Close-up Portrait with Lightning Tracer */}
           <div className="lg:col-span-5 flex justify-center">
-            <LightningCard imageSrc="/images/idris-akintobi-toptal-1920x1080-ultra.jpg" />
+            <LightningCard />
           </div>
         </div>
 
@@ -154,7 +168,7 @@ export function Hero() {
               +25%
             </div>
             <div className="text-xs text-slate-400 mt-1 font-mono">
-              Payment & Billing Revenue
+              Payment &amp; Billing Revenue
             </div>
           </div>
 

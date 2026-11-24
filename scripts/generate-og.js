@@ -4,11 +4,10 @@ const fs = require('fs');
 
 async function makeOgImage() {
   const publicDir = path.join(__dirname, '..', 'public', 'images');
-  const portraitSrc = path.join(publicDir, 'idris-akintobi-toptal-1920x1080-ultra.jpg');
+  const portraitSrc = path.join(publicDir, 'idris-portrait.jpg');
 
   // Resize portrait to 460x530 for right side of OG card
   const portraitCropped = await sharp(portraitSrc)
-    .extract({ left: 600, top: 50, width: 720, height: 830 })
     .resize(460, 530, { fit: 'cover', position: 'center' })
     .toBuffer();
 

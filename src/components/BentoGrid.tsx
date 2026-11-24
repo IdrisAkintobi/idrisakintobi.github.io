@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import {
   Server,
@@ -17,7 +15,7 @@ export function BentoGrid() {
         <div className="mb-12 border-b border-white/10 pb-6">
           <div className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 mb-2">
             <Layers className="w-3.5 h-3.5" />
-            <span>// ARCHITECTURE & CORE DOMAINS</span>
+            <span>{"// ARCHITECTURE & CORE DOMAINS"}</span>
           </div>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">

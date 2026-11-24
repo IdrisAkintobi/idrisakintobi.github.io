@@ -1,10 +1,9 @@
-"use client";
-
 import React from "react";
 import { BookOpen, ExternalLink, ArrowUpRight } from "lucide-react";
+import { siteConfig } from "@/config/site";
 
 export function Writing() {
-  const mediumUrl = "https://medium.com/@akintobiidris";
+  const mediumUrl = siteConfig.social.medium;
 
   const articles = [
     {
@@ -48,7 +47,7 @@ export function Writing() {
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 mb-2">
               <BookOpen className="w-3.5 h-3.5" />
-              <span>// ENGINEERING INSIGHTS & ARTICLES</span>
+              <span>{"// ENGINEERING INSIGHTS & ARTICLES"}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
               Writing on Medium

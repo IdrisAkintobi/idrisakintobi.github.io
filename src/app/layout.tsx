@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { siteConfig } from "@/config/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -15,8 +16,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://idris.akintobi.ng"),
-  title: "Idris Akintobi — Senior Backend / Full-Stack Engineer",
+  metadataBase: new URL(siteConfig.url),
+  title: `${siteConfig.name} — ${siteConfig.role}`,
   description:
     "Senior Backend / Full-Stack Engineer with 6+ years experience architecting distributed systems, scalable billing engines, and agentic AI pipelines. Certified AWS, GCP, and Kubernetes.",
   keywords: [
@@ -38,10 +39,11 @@ export const metadata: Metadata = {
     "Cloud Native",
     "Kubernetes",
   ],
-  authors: [{ name: "Idris Akintobi", url: "https://idris.akintobi.ng" }],
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
   alternates: {
-    canonical: "https://idris.akintobi.ng",
+    canonical: siteConfig.url,
   },
+  manifest: "/manifest.webmanifest",
   robots: {
     index: true,
     follow: true,
@@ -54,17 +56,17 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Idris Akintobi — Senior Backend / Full-Stack Engineer",
+    title: `${siteConfig.name} — ${siteConfig.role}`,
     description:
       "6+ years architecting zero-downtime distributed systems, scalable billing infrastructure, and agentic AI workflows.",
-    url: "https://idris.akintobi.ng",
-    siteName: "Idris Akintobi",
+    url: siteConfig.url,
+    siteName: siteConfig.name,
     images: [
       {
-        url: "/images/og-image.jpg",
+        url: siteConfig.ogImage,
         width: 1200,
         height: 630,
-        alt: "Idris Akintobi — Senior Backend / Full-Stack Engineer",
+        alt: `${siteConfig.name} — ${siteConfig.role}`,
       },
     ],
     locale: "en_US",
@@ -72,12 +74,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Idris Akintobi — Senior Backend / Full-Stack Engineer",
+    title: `${siteConfig.name} — ${siteConfig.role}`,
     description:
       "Senior Backend / Full-Stack Engineer with 6+ years experience architecting high-throughput distributed systems, billing engines & AI automation.",
-    site: "@idris_akintobi",
-    creator: "@idris_akintobi",
-    images: ["/images/og-image.jpg"],
+    site: siteConfig.social.xHandle,
+    creator: siteConfig.social.xHandle,
+    images: [siteConfig.ogImage],
   },
   icons: {
     icon: [
@@ -96,18 +98,18 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "Person",
-      "@id": "https://idris.akintobi.ng/#person",
-      name: "Idris Akintobi",
-      url: "https://idris.akintobi.ng",
-      image: "https://idris.akintobi.ng/images/og-image.jpg",
-      jobTitle: "Senior Backend / Full-Stack Engineer",
+      "@id": `${siteConfig.url}/#person`,
+      name: siteConfig.name,
+      url: siteConfig.url,
+      image: `${siteConfig.url}${siteConfig.ogImage}`,
+      jobTitle: siteConfig.role,
       sameAs: [
-        "https://github.com/IdrisAkintobi",
-        "https://linkedin.com/in/idrisakintobi",
-        "https://x.com/idris_akintobi",
-        "https://medium.com/@akintobiidris",
-        "https://www.toptal.com/developers/resume/idris-akintobi#qPmZ4p",
-        "https://www.credly.com/users/idris-akintobi.0bcc4360/badges/credly",
+        siteConfig.social.github,
+        siteConfig.social.linkedin,
+        siteConfig.social.x,
+        siteConfig.social.medium,
+        siteConfig.social.toptal,
+        siteConfig.social.credly,
       ],
       knowsAbout: [
         "Distributed Systems",
@@ -152,21 +154,21 @@ const jsonLd = {
     },
     {
       "@type": "WebSite",
-      "@id": "https://idris.akintobi.ng/#website",
-      url: "https://idris.akintobi.ng",
-      name: "Idris Akintobi — Senior Backend / Full-Stack Engineer",
+      "@id": `${siteConfig.url}/#website`,
+      url: siteConfig.url,
+      name: `${siteConfig.name} — ${siteConfig.role}`,
       description:
         "Portfolio of Idris Akintobi, Senior Backend / Full-Stack Engineer specializing in distributed systems, scalable billing engines, and AI agents.",
-      author: { "@id": "https://idris.akintobi.ng/#person" },
+      author: { "@id": `${siteConfig.url}/#person` },
     },
     {
       "@type": "ProfilePage",
-      "@id": "https://idris.akintobi.ng/#webpage",
-      url: "https://idris.akintobi.ng",
-      name: "Idris Akintobi — Senior Backend / Full-Stack Engineer",
-      isPartOf: { "@id": "https://idris.akintobi.ng/#website" },
-      about: { "@id": "https://idris.akintobi.ng/#person" },
-      mainEntity: { "@id": "https://idris.akintobi.ng/#person" },
+      "@id": `${siteConfig.url}/#webpage`,
+      url: siteConfig.url,
+      name: `${siteConfig.name} — ${siteConfig.role}`,
+      isPartOf: { "@id": `${siteConfig.url}/#website` },
+      about: { "@id": `${siteConfig.url}/#person` },
+      mainEntity: { "@id": `${siteConfig.url}/#person` },
     },
   ],
 };

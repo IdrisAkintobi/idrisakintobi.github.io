@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import {
   ExternalLink,
   ShieldCheck,
@@ -12,6 +12,7 @@ import {
   ChevronRight,
   GraduationCap,
 } from "lucide-react";
+import { siteConfig } from "@/config/site";
 
 interface Badge {
   id: string;
@@ -20,7 +21,7 @@ interface Badge {
   description: string;
   category: string;
   icon: "gcp" | "aws" | "k8s" | "edu" | "all";
-  link: string;
+  link?: string;
 }
 
 const badges: Badge[] = [
@@ -31,7 +32,7 @@ const badges: Badge[] = [
     description: "Cloud Run, Compute Engine, IAM, VPC, and Cloud Storage architecture.",
     category: "Cloud Architecture",
     icon: "gcp",
-    link: "https://www.credly.com/users/idris-akintobi.0bcc4360/badges/credly",
+    link: siteConfig.social.credly,
   },
   {
     id: "aws",
@@ -40,7 +41,7 @@ const badges: Badge[] = [
     description: "Serverless, Lambda, DynamoDB, ECS, API Gateway, S3, and CloudFormation.",
     category: "Cloud Development",
     icon: "aws",
-    link: "https://www.credly.com/users/idris-akintobi.0bcc4360/badges/credly",
+    link: siteConfig.social.credly,
   },
   {
     id: "k8s",
@@ -49,7 +50,7 @@ const badges: Badge[] = [
     description: "Container orchestration, K8s architecture, GitOps, and cloud-native observability.",
     category: "Container Orchestration",
     icon: "k8s",
-    link: "https://www.credly.com/users/idris-akintobi.0bcc4360/badges/credly",
+    link: siteConfig.social.credly,
   },
   {
     id: "edu",
@@ -58,7 +59,6 @@ const badges: Badge[] = [
     description: "Core algorithms, data structures, distributed systems, and computer architecture.",
     category: "Academic Foundation",
     icon: "edu",
-    link: "https://www.credly.com/users/idris-akintobi.0bcc4360/badges/credly",
   },
   {
     id: "all",
@@ -67,27 +67,31 @@ const badges: Badge[] = [
     description: "Explore all verified credentials, skills assessments, and digital badges.",
     category: "Official Directory",
     icon: "all",
-    link: "https://www.credly.com/users/idris-akintobi.0bcc4360/badges/credly",
+    link: siteConfig.social.credly,
   },
 ];
 
 export function Credentials() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [canScrollRight, setCanScrollRight] = useState(false);
 
-  const credlyUrl =
-    "https://www.credly.com/users/idris-akintobi.0bcc4360/badges/credly";
-  const toptalUrl =
-    "https://www.toptal.com/developers/resume/idris-akintobi#qPmZ4p";
+  const credlyUrl = siteConfig.social.credly;
+  const toptalUrl = siteConfig.social.toptal;
 
-  const checkScroll = () => {
+  const checkScroll = useCallback(() => {
     if (scrollRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
       setCanScrollLeft(scrollLeft > 10);
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    checkScroll();
+    window.addEventListener("resize", checkScroll, { passive: true });
+    return () => window.removeEventListener("resize", checkScroll);
+  }, [checkScroll]);
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
@@ -107,7 +111,7 @@ export function Credentials() {
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 mb-2">
               <Award className="w-3.5 h-3.5" />
-              <span>// VERIFIED CREDENTIALS & TRUST</span>
+              <span>{"// VERIFIED CREDENTIALS & TRUST"}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
               Vetted Expertise & Accreditations
@@ -249,49 +253,63 @@ export function Credentials() {
           tabIndex={0}
           className="flex gap-4 overflow-x-auto pb-4 scroll-smooth snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus:outline-none"
         >
-          {badges.map((badge) => (
-            <a
-              key={badge.id}
-              href={badge.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-[290px] sm:w-[320px] shrink-0 snap-start rounded-2xl glass-panel p-5 border border-white/10 hover:border-cyan-500/30 hover:bg-white/[0.04] transition-all flex flex-col justify-between group"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-cyan-400 group-hover:border-cyan-500/40 transition-colors">
-                    {badge.icon === "gcp" && <Cloud className="w-5 h-5 text-cyan-400" />}
-                    {badge.icon === "aws" && <Cpu className="w-5 h-5 text-amber-400" />}
-                    {badge.icon === "k8s" && <ShieldCheck className="w-5 h-5 text-blue-400" />}
-                    {badge.icon === "edu" && <GraduationCap className="w-5 h-5 text-emerald-400" />}
-                    {badge.icon === "all" && <Award className="w-5 h-5 text-indigo-400" />}
+          {badges.map((badge) => {
+            const cardClassName =
+              "w-[290px] sm:w-[320px] shrink-0 snap-start rounded-2xl glass-panel p-5 border border-white/10 hover:border-cyan-500/30 hover:bg-white/[0.04] transition-all flex flex-col justify-between group";
+            const cardContent = (
+              <>
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-cyan-400 group-hover:border-cyan-500/40 transition-colors">
+                      {badge.icon === "gcp" && <Cloud className="w-5 h-5 text-cyan-400" aria-hidden="true" />}
+                      {badge.icon === "aws" && <Cpu className="w-5 h-5 text-amber-400" aria-hidden="true" />}
+                      {badge.icon === "k8s" && <ShieldCheck className="w-5 h-5 text-blue-400" aria-hidden="true" />}
+                      {badge.icon === "edu" && <GraduationCap className="w-5 h-5 text-emerald-400" aria-hidden="true" />}
+                      {badge.icon === "all" && <Award className="w-5 h-5 text-indigo-400" aria-hidden="true" />}
+                    </div>
+
+                    <span className="text-[11px] font-mono text-slate-400 px-2 py-0.5 rounded-full bg-white/[0.03] border border-white/5">
+                      {badge.category}
+                    </span>
                   </div>
 
-                  <span className="text-[11px] font-mono text-slate-400 px-2 py-0.5 rounded-full bg-white/[0.03] border border-white/5">
-                    {badge.category}
+                  <div className="text-[11px] font-mono text-cyan-400/90 font-medium">
+                    {badge.issuer}
+                  </div>
+                  <h4 className="font-semibold text-white group-hover:text-cyan-300 transition-colors mt-0.5 leading-snug">
+                    {badge.title}
+                  </h4>
+                  <p className="text-xs text-slate-400 mt-2 leading-relaxed">
+                    {badge.description}
+                  </p>
+                </div>
+
+                <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-xs font-mono text-slate-500 group-hover:text-cyan-300 transition-colors">
+                  <span className="flex items-center gap-1">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" />
+                    {badge.link ? "Verified Credential" : "Academic Degree"}
                   </span>
+                  {badge.link && <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />}
                 </div>
+              </>
+            );
 
-                <div className="text-[11px] font-mono text-cyan-400/90 font-medium">
-                  {badge.issuer}
-                </div>
-                <h4 className="font-semibold text-white group-hover:text-cyan-300 transition-colors mt-0.5 leading-snug">
-                  {badge.title}
-                </h4>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">
-                  {badge.description}
-                </p>
+            return badge.link ? (
+              <a
+                key={badge.id}
+                href={badge.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cardClassName}
+              >
+                {cardContent}
+              </a>
+            ) : (
+              <div key={badge.id} className={cardClassName}>
+                {cardContent}
               </div>
-
-              <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-xs font-mono text-slate-500 group-hover:text-cyan-300 transition-colors">
-                <span className="flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  Verified Credential
-                </span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </div>
-            </a>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

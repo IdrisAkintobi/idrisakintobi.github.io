@@ -102,21 +102,41 @@ export function Experience() {
 
   const active = experiences.find((e) => e.id === selectedJob) || experiences[0];
 
+  const handleTabKeyDown = (e: React.KeyboardEvent, index: number) => {
+    let nextIndex: number | null = null;
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+      nextIndex = (index + 1) % experiences.length;
+    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+      nextIndex = (index - 1 + experiences.length) % experiences.length;
+    } else if (e.key === "Home") {
+      nextIndex = 0;
+    } else if (e.key === "End") {
+      nextIndex = experiences.length - 1;
+    }
+
+    if (nextIndex !== null) {
+      e.preventDefault();
+      const nextJob = experiences[nextIndex];
+      setSelectedJob(nextJob.id);
+      document.getElementById(`tab-${nextJob.id}`)?.focus();
+    }
+  };
+
   return (
     <section id="experience" className="py-24 relative">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         {/* Section Header */}
         <div className="mb-12 border-b border-white/10 pb-6">
           <div className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 mb-2">
-            <Briefcase className="w-3.5 h-3.5" />
-            <span>// TRACK RECORD & IMPACT</span>
+            <Briefcase className="w-3.5 h-3.5" aria-hidden="true" />
+            <span>{"// TRACK RECORD & IMPACT"}</span>
           </div>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
               Production Engineering Experience
             </h2>
             <span className="text-xs font-mono text-slate-400">
-              6+ Years across Streaming, FinTech & Enterprise SaaS
+              6+ Years across Streaming, FinTech &amp; Enterprise SaaS
             </span>
           </div>
         </div>
@@ -129,16 +149,19 @@ export function Experience() {
             aria-label="Experience Companies"
             className="lg:col-span-4 flex flex-row lg:flex-col gap-2 overflow-x-auto pb-2 lg:pb-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
-            {experiences.map((job) => {
-               const isCurrent = job.id === selectedJob;
-               return (
+            {experiences.map((job, idx) => {
+              const isCurrent = job.id === selectedJob;
+              return (
                 <button
                   key={job.id}
+                  type="button"
                   id={`tab-${job.id}`}
                   role="tab"
                   aria-selected={isCurrent}
                   aria-controls={`panel-${job.id}`}
+                  tabIndex={isCurrent ? 0 : -1}
                   onClick={() => setSelectedJob(job.id)}
+                  onKeyDown={(e) => handleTabKeyDown(e, idx)}
                   className={`text-left p-4 rounded-xl transition-all duration-200 border min-w-[210px] sm:min-w-[240px] lg:min-w-0 lg:w-full shrink-0 flex flex-col justify-between group ${
                     isCurrent
                       ? "bg-slate-900 border-cyan-500/40 shadow-lg shadow-cyan-950/30"
@@ -216,7 +239,7 @@ export function Experience() {
             {/* Technologies Used Strip */}
             <div className="mt-8 pt-5 border-t border-white/10">
               <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider block mb-2.5">
-                // System Technologies & Tools
+                {"// System Technologies & Tools"}
               </span>
               <div className="flex flex-wrap gap-1.5">
                 {active.technologies.map((tech) => (

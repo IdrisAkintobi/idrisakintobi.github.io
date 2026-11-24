@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { GithubIcon, LinkedinIcon, WhatsAppIcon } from "@/components/Icons";
+import { siteConfig } from "@/config/site";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -40,7 +41,7 @@ export function Navbar() {
         {/* Brand */}
         <Link href="/" className="flex items-center gap-2 group">
           <span className="text-sm font-semibold tracking-tight text-slate-100 group-hover:text-cyan-300 transition-colors">
-            Idris Akintobi
+            {siteConfig.name}
           </span>
           <span className="text-xs font-mono text-slate-500">
             / Engineer
@@ -78,7 +79,7 @@ export function Navbar() {
         {/* Right Socials & Contact Shortcut */}
         <div className="hidden sm:flex items-center gap-3">
           <a
-            href="https://github.com/IdrisAkintobi"
+            href={siteConfig.social.github}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub Profile"
@@ -88,7 +89,7 @@ export function Navbar() {
           </a>
 
           <a
-            href="https://linkedin.com/in/idrisakintobi"
+            href={siteConfig.social.linkedin}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn Profile"
@@ -100,13 +101,14 @@ export function Navbar() {
 
         {/* Mobile menu button */}
         <button
+          type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="md:hidden p-2 text-slate-300 hover:text-white"
           aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileMenuOpen}
           aria-controls="mobile-menu-dropdown"
         >
-          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          {mobileMenuOpen ? <X className="w-5 h-5" aria-hidden="true" /> : <Menu className="w-5 h-5" aria-hidden="true" />}
         </button>
       </nav>
 
@@ -122,35 +124,35 @@ export function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
               className="py-1 hover:text-cyan-300"
             >
-              // Specialties
+              {"// Specialties"}
             </a>
             <a
               href="#experience"
               onClick={() => setMobileMenuOpen(false)}
               className="py-1 hover:text-cyan-300"
             >
-              // Experience
+              {"// Experience"}
             </a>
             <a
               href="#credentials"
               onClick={() => setMobileMenuOpen(false)}
               className="py-1 hover:text-cyan-300"
             >
-              // Credentials
+              {"// Credentials"}
             </a>
             <a
               href="#writing"
               onClick={() => setMobileMenuOpen(false)}
               className="py-1 hover:text-cyan-300"
             >
-              // Writing
+              {"// Writing"}
             </a>
           </div>
 
           <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
             <div className="flex items-center justify-center gap-6 pt-1 text-slate-400">
               <a
-                href="https://github.com/IdrisAkintobi"
+                href={siteConfig.social.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white p-2"
@@ -159,7 +161,7 @@ export function Navbar() {
                 <GithubIcon className="w-5 h-5" />
               </a>
               <a
-                href="https://linkedin.com/in/idrisakintobi"
+                href={siteConfig.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white p-2"
@@ -168,7 +170,7 @@ export function Navbar() {
                 <LinkedinIcon className="w-5 h-5" />
               </a>
               <a
-                href="https://wa.me/2348080863345?text=Hi%20Idris,%20reaching%20out%20regarding%20an%20engineering%20opportunity"
+                href={siteConfig.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-emerald-400 p-2"

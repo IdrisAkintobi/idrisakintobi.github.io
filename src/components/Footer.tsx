@@ -17,6 +17,7 @@ import {
   MediumIcon,
   WhatsAppIcon,
 } from "@/components/Icons";
+import { siteConfig } from "@/config/site";
 
 export function Footer() {
   const scrollToTop = () => {
@@ -28,12 +29,15 @@ export function Footer() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         {/* Terminal Contact Box */}
         <div className="rounded-2xl glass-panel p-8 sm:p-10 border border-white/10 relative overflow-hidden mb-16 bg-gradient-to-b from-[#0B0F19] to-[#07090F]">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div
+            aria-hidden="true"
+            className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"
+          />
 
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
             <div className="space-y-3 max-w-xl">
               <div className="flex items-center gap-2 font-mono text-xs text-cyan-400">
-                <Terminal className="w-4 h-4" />
+                <Terminal className="w-4 h-4" aria-hidden="true" />
                 <span>idris@infrastructure:~$ get-in-touch</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
@@ -47,23 +51,23 @@ export function Footer() {
             {/* Direct Connect Action */}
             <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0">
               <a
-                href="https://wa.me/2348080863345?text=Hi%20Idris,%20reaching%20out%20regarding%20an%20engineering%20opportunity"
+                href={siteConfig.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-6 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-medium text-sm transition-all duration-200 flex items-center justify-center gap-2 font-mono shadow-lg shadow-emerald-500/20 active:scale-95 group"
               >
                 <WhatsAppIcon className="w-4 h-4 text-slate-950 group-hover:scale-110 transition-transform" />
                 <span>Chat on WhatsApp</span>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-950/80" />
+                <ExternalLink className="w-3.5 h-3.5 text-slate-950/80" aria-hidden="true" />
               </a>
 
               <a
-                href="mailto:idris@akintobi.ng"
+                href={`mailto:${siteConfig.email}`}
                 className="px-6 py-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-200 text-sm font-mono text-center transition-colors flex items-center justify-center gap-2"
               >
-                <Mail className="w-4 h-4 text-slate-400" />
+                <Mail className="w-4 h-4 text-slate-400" aria-hidden="true" />
                 <span className="sm:hidden">Send email</span>
-                <span className="hidden sm:inline">Send email (idris@akintobi.ng)</span>
+                <span className="hidden sm:inline">Send email ({siteConfig.email})</span>
               </a>
             </div>
           </div>
@@ -75,23 +79,25 @@ export function Footer() {
           <div className="md:col-span-5 space-y-3">
             <div className="flex items-center gap-2.5">
               <div className="w-7 h-7 rounded-lg bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-300 font-mono text-xs font-bold">
-                IA
+                {siteConfig.shortName}
               </div>
               <span className="text-sm font-semibold text-white tracking-tight">
-                Idris Akintobi
+                {siteConfig.name}
               </span>
             </div>
             <p className="text-xs font-mono text-slate-400 max-w-sm">
-              Senior Backend / Full-Stack Engineer. Building high-resilience systems, financial infrastructure, and autonomous agent pipelines.
+              {siteConfig.role}. Building high-resilience systems, financial infrastructure, and autonomous agent pipelines.
             </p>
 
             {/* Work arrangement */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-xs font-mono text-slate-400 pt-1">
               <div className="flex items-center gap-2">
-                <Globe className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                <Globe className="w-3.5 h-3.5 text-cyan-400 shrink-0" aria-hidden="true" />
                 <span>Availability:</span>
               </div>
-              <span className="text-slate-200 font-medium pl-5.5 sm:pl-0">Worldwide Remote • US / EU Overlap</span>
+              <span className="text-slate-200 font-medium pl-[22px] sm:pl-0">
+                {siteConfig.availability}
+              </span>
             </div>
           </div>
 
@@ -99,10 +105,10 @@ export function Footer() {
           <div className="md:col-span-5 grid grid-cols-2 gap-4 text-xs font-mono">
             <div className="space-y-2.5">
               <span className="text-slate-500 uppercase tracking-wider block text-[10px]">
-                // Network
+                {"// Network"}
               </span>
               <a
-                href="https://linkedin.com/in/idrisakintobi"
+                href={siteConfig.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-slate-300 hover:text-cyan-300 transition-colors"
@@ -111,7 +117,7 @@ export function Footer() {
                 <span>LinkedIn</span>
               </a>
               <a
-                href="https://github.com/IdrisAkintobi"
+                href={siteConfig.social.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-slate-300 hover:text-cyan-300 transition-colors"
@@ -120,7 +126,7 @@ export function Footer() {
                 <span>GitHub</span>
               </a>
               <a
-                href="https://x.com/idris_akintobi"
+                href={siteConfig.social.x}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-slate-300 hover:text-cyan-300 transition-colors"
@@ -129,7 +135,7 @@ export function Footer() {
                 <span>X (Twitter)</span>
               </a>
               <a
-                href="https://medium.com/@akintobiidris"
+                href={siteConfig.social.medium}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-slate-300 hover:text-cyan-300 transition-colors"
@@ -138,7 +144,7 @@ export function Footer() {
                 <span>Medium</span>
               </a>
               <a
-                href="https://wa.me/2348080863345?text=Hi%20Idris,%20reaching%20out%20regarding%20an%20engineering%20opportunity"
+                href={siteConfig.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-slate-300 hover:text-cyan-300 transition-colors"
@@ -150,24 +156,24 @@ export function Footer() {
 
             <div className="space-y-2.5">
               <span className="text-slate-500 uppercase tracking-wider block text-[10px]">
-                // Verified Trust
+                {"// Verified Trust"}
               </span>
               <a
-                href="https://www.toptal.com/developers/resume/idris-akintobi#qPmZ4p"
+                href={siteConfig.social.toptal}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
               >
-                <ShieldCheck className="w-3.5 h-3.5" />
+                <ShieldCheck className="w-3.5 h-3.5" aria-hidden="true" />
                 <span>Toptal Talent</span>
               </a>
               <a
-                href="https://www.credly.com/users/idris-akintobi.0bcc4360/badges/credly"
+                href={siteConfig.social.credly}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors"
               >
-                <Award className="w-3.5 h-3.5" />
+                <Award className="w-3.5 h-3.5" aria-hidden="true" />
                 <span>Credly Badges</span>
               </a>
             </div>
@@ -176,12 +182,13 @@ export function Footer() {
           {/* Back to top (Col 2) */}
           <div className="md:col-span-2 flex justify-end items-start">
             <button
+              type="button"
               onClick={scrollToTop}
               aria-label="Scroll back to top of page"
               className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-400 hover:text-white transition-colors flex items-center gap-2 text-xs font-mono"
             >
               <span>Top</span>
-              <ArrowUp className="w-3.5 h-3.5" />
+              <ArrowUp className="w-3.5 h-3.5" aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -189,7 +196,7 @@ export function Footer() {
         {/* Bottom copyright line */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono text-slate-500">
           <div>
-            © {new Date().getFullYear()} Idris Akintobi.
+            © {new Date().getFullYear()} {siteConfig.name}.
           </div>
         </div>
       </div>
